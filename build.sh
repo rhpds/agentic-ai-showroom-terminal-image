@@ -68,6 +68,31 @@ podman push ${IMAGE_NAME}:latest
 podman push ${IMAGE_NAME}:${BUILD_DATE}
 
 # -------------------------------------------------------------------
+# Build Agentic AI Showroom Terminal Image
+# -------------------------------------------------------------------
+VIRTCTL_VERSION="v1.7.1"
+BUILD_DATE=$(date +"%Y-%m-%d")
+IMAGE_NAME=quay.io/rhpds/agentic-ai-showroom-terminal
+
+podman build . --file Containerfile.agentic \
+  --platform linux/amd64 \
+  --build-arg BUILD_DATE=${BUILD_DATE} \
+  --build-arg VIRTCTL_VERSION=${VIRTCTL_VERSION} \
+  --tag ${IMAGE_NAME}:latest
+
+if [ $? -ne 0 ]; then
+  echo "*******************************************************************************"
+  echo "Error building image ${IMAGE_NAME}."
+  echo "*******************************************************************************"
+
+  exit
+fi
+
+podman tag ${IMAGE_NAME}:latest ${IMAGE_NAME}:${BUILD_DATE}
+podman push ${IMAGE_NAME}:latest
+podman push ${IMAGE_NAME}:${BUILD_DATE}
+
+# -------------------------------------------------------------------
 # Build Showroom Terminal Image for ROSA Environments
 # -------------------------------------------------------------------
 ROSA_VERSION=latest
