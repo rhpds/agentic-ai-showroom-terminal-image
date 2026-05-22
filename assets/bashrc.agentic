@@ -1,0 +1,37 @@
+# .bashrc — Agentic DevOps Lab Terminal
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+# User specific environment
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
+    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+fi
+export PATH="/opt/deepagents/bin:$PATH"
+
+# Aliases — modern replacements
+alias cat='bat --paging=never'
+alias less='bat --paging=always'
+alias ls="ls -F --color=auto"
+alias la="ls -aF"
+alias ll="ls -lF"
+
+# Prompt — green user label, blue path
+export PS1="\[\e[32m\]sre\[\e[0m\]:\[\e[34m\]\w\[\e[0m\]\$ "
+
+# Source bashrc.d drop-ins (derivative image hook)
+if [ -d ~/.bashrc.d ]; then
+    for rc in ~/.bashrc.d/*; do
+        if [ -f "$rc" ]; then
+            . "$rc"
+        fi
+    done
+fi
+unset rc
+
+# Print MotD
+if [ -f /etc/motd.d/rhdp ]; then
+    command cat /etc/motd.d/rhdp
+fi
