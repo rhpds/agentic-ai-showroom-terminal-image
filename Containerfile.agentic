@@ -56,8 +56,14 @@ RUN chown root:root /usr/local/bin/* && \
     chmod u=rwx,g=rwx,o=rx /usr/local/bin/*
 
 # ── Bash completion for CLI tools ────────────────────────────────
-RUN /usr/local/bin/oc completion bash >/etc/bash_completion.d/openshift && \
-    /usr/local/bin/helm completion bash >/etc/bash_completion.d/helm
+# Note: completion generation crashes under QEMU emulation (Apple Silicon).
+# These commands work natively on x86_64. Run manually if building on ARM:
+#   oc completion bash >/etc/bash_completion.d/openshift
+#   helm completion bash >/etc/bash_completion.d/helm
+#   virtctl completion bash >/etc/bash_completion.d/virtctl
+RUN /usr/local/bin/oc completion bash >/etc/bash_completion.d/openshift 2>/dev/null; \
+    /usr/local/bin/helm completion bash >/etc/bash_completion.d/helm 2>/dev/null; \
+    true
 
 # ── uv + Python 3.13 + deepagents venv ──────────────────────────
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
