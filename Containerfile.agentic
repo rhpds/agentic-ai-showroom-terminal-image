@@ -57,8 +57,7 @@ RUN chown root:root /usr/local/bin/* && \
 
 # ── Bash completion for CLI tools ────────────────────────────────
 RUN /usr/local/bin/oc completion bash >/etc/bash_completion.d/openshift && \
-    /usr/local/bin/helm completion bash >/etc/bash_completion.d/helm && \
-    /usr/local/bin/virtctl completion bash >/etc/bash_completion.d/virtctl
+    /usr/local/bin/helm completion bash >/etc/bash_completion.d/helm
 
 # ── uv + Python 3.13 + deepagents venv ──────────────────────────
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
