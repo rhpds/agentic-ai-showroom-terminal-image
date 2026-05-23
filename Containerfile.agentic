@@ -21,7 +21,7 @@ RUN dnf install -y \
 
 # ── System packages ─────────────────────────────────────────────
 RUN dnf install -y --allowerasing \
-      openssh-clients sshpass \
+      openssh-clients \
       bat ripgrep \
       curl bind-utils iputils nmap-ncat \
       && dnf clean all
